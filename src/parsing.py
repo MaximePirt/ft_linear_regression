@@ -1,12 +1,12 @@
 
-def parse_input(str: str):
+def parse_input(arg: str):
 	"""
 		Check if input is a number + normalise it
 		Input - str -> string input
 		Output -> Normalise mileages, or -1 if error
 	"""
 	try:
-		value = int(str)
+		value = int(arg)
 		if value < 0:
 			raise Error
 	except:

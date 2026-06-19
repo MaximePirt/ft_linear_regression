@@ -7,12 +7,12 @@ def main():
 		to launch program
 	"""
 	print("Enter car's mileages please")
-	mileages = input()
+	arg = input()
 
-	test = parse_input(mileages)
-	if test == -1:
+	mileage = parse_input(arg)
+	if mileage == -1:
 		return -1
-	print("Here is input :", test)
+	print("Here is input :", mileage)
 	
 	return
 
