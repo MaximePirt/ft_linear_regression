@@ -1,5 +1,10 @@
 from parsing import parse_input
 
+def calcul_estimate_price(theta0: int, theta1: int, mileage: int) -> int:
+	res = theta0 + theta1 * mileage
+	return res
+
+
 def main():
 	""" 
 		main program function
@@ -13,6 +18,11 @@ def main():
 	if mileage == -1:
 		return -1
 	print("Here is input :", mileage)
+
+	theta0 = 0
+	theta1 = 0
+	res = calcul_estimate_price(theta0, theta1, mileage)
+	print("Here is res :", res)
 	
 	return
 
