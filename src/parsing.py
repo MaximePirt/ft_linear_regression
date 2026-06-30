@@ -1,3 +1,4 @@
+import pandas as pd
 
 def parse_input(arg: str):
 	"""
@@ -14,3 +15,21 @@ def parse_input(arg: str):
 		return -1
 		
 	return value
+
+
+
+def load_csv(path: str) -> pd.DataFrame:
+	''' 
+		Load a file from path, and return infos into Datafram
+		input : path - filename to open, which need to be a csv
+		output : Dataframe with csv informations
+			TODO: Protect csv inputs
+		'''
+	try:
+		if not path.endswith("csv"):
+			raise TypeError("Error, file isn't in csv format")
+		data = pd.read_csv(path)
+		print("Loading dataset of dimensions", data.shape)
+		return data
+	except:
+		return None
