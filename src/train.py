@@ -1,4 +1,7 @@
+import numpy as np
+import matplotlib.pyplot as plt
 from parsing import load_csv
+from calcul import training
 
 def main():
 	""" 
@@ -9,10 +12,20 @@ def main():
 
 	datas = load_csv("../data.csv")
 	# print("Here is datas :\n", datas)
-	theta0 = 0
-	theta1 = 1
-	mileage = datas.km
-	print("Here is mileage :\n", mileage)
+	theta = np.array([0, 0])
+	# print("Here is mileage :\n", X)
+	# print("Here is X.shape :", X.shape)
+	# print("Here is theta.shape :", theta.shape)
+	F = training(datas, theta)
+
+
+
+	# Visualisation --------
+	# plt.plot(datas.km, datas.price, 'X')
+	# plt.grid()
+	# plt.xlabel('km')
+	# plt.ylabel('price')
+	# plt.show()
 
 	
 	return
