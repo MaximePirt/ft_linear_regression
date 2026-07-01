@@ -12,7 +12,7 @@ def main():
 
 	datas = load_csv("../data.csv")
 	# print("Here is datas :\n", datas)
-	theta = np.array([0, 0])
+	theta = np.array([1, 1])
 	# print("Here is mileage :\n", X)
 	# print("Here is X.shape :", X.shape)
 	# print("Here is theta.shape :", theta.shape)

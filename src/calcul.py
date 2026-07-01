@@ -1,10 +1,11 @@
+import numpy as np
 
 #	x = mileage
 # 	y = price
 #
 
 def calc_linear(mileage, theta):
-	return mileage * theta
+	return np.dot(mileage, theta)
 
 
 
@@ -24,12 +25,22 @@ def training(datas, theta):
 		return F result
 		F = X . Theta
 		'''
-	X = datas.km
+	X = np.array((datas.km), dtype=int).reshape(-1, 1)
+	onesX = np.ones((X.shape[0], 1), dtype=int)
+	X = np.concatenate((onesX, X), axis=1)
+
+
+	# theta = theta[np.newaxis, :]
+
 	print("Here is X and theta :")
 	print(X)
 	print(theta)
-	# F = calc_linear(X, theta)
-	# print("Here is results :\n", F)
+	print("Here is shapes :")
+	print(X.shape)
+	print(theta.shape)
+
+	F = calc_linear(X, theta)
+	print("Here is results :\n", F)
 
 	return 0
 
