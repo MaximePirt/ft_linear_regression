@@ -1,4 +1,6 @@
 import pandas as pd
+import numpy as np
+
 
 def parse_input(arg: str):
 	"""
@@ -17,6 +19,44 @@ def parse_input(arg: str):
 	return value
 
 
+def calc_std_deviation(args, mean):
+	'''
+		This function calcul dataset standard deviation
+		Input : 	args - data which need to be calculate
+					mean 
+		Output : deviation
+	'''
+	tmp_var = []
+	for i in args:
+		tmp_var.append((i - mean) ** 2)
+	
+	variance = sum(tmp_var)
+	variance = variance / len(args)
+	deviation = variance ** (1/2)
+	return deviation
+
+def standard_data(data):
+	'''
+		This function is here to standardise data from Dataset.
+		Standardisation take standard deviation and dataset mean to modify data
+		a data superior to mean will be set to positive, and a data inferior will be negative
+		Standardisation differ from normalisation because it keeps standard_deviation in datas
+
+		Input : 	data - dataset
+		Output :	data - Modified dataset
+					mean
+					std_deviation
+	'''
+	km = data.km
+	mean = km.sum() / km.size
+	max_km = np.nanmax(km)
+	min_km = np.nanmin(km)
+
+	std_deviation = calc_std_deviation(km, mean)
+
+	data.km = (km - mean) / std_deviation 
+
+	return data, mean, std_deviation
 
 def load_csv(path: str) -> pd.DataFrame:
 	''' 
@@ -25,11 +65,12 @@ def load_csv(path: str) -> pd.DataFrame:
 		output : Dataframe with csv informations
 			TODO: Protect csv inputs
 		'''
-	try:
-		if not path.endswith("csv"):
-			raise TypeError("Error, file isn't in csv format")
-		data = pd.read_csv(path)
-		print("Loading dataset of dimensions", data.shape)
-		return data
-	except:
-		return None
+	# try:
+	if not path.endswith("csv"):
+		raise TypeError("Error, file isn't in csv format")
+	data = pd.read_csv(path)
+	print("Loading dataset of dimensions", data.shape)
+	print("Here is firsts datas : \n", data)
+	return data
+	# except:
+	# 	return None
