@@ -21,6 +21,7 @@ def main():
 	theta = 0
 	mean = 0
 	std_deviation = 0
+	trained = True
 	try:
 		data = load_csv("models/training_datas.csv")
 		row = data.iloc[0]
@@ -29,21 +30,21 @@ def main():
 		std_deviation = float(row["std_deviation"])
 	except Exception as e:
 		print("This program has not been trained yet :", e)
+		trained = False
 
 
 
-	print("Here is theta :", theta)
-	print("Here is mean :", mean)
-	print("Here is deviation :", std_deviation)
-
-	mileage =  (mileage - mean) / std_deviation 
-	X_design = np.array((mileage), dtype=float).reshape(-1, 1)
-	onesX = np.ones((X_design.shape[0], 1), dtype=float)
-	X = np.concatenate((onesX, X_design), axis=1)
-	print("here is mileage :", X)
-
-	res = calc_linear(X, theta)
-	print("Here is res :", res)
+	if trained :
+		mileage =  (mileage - mean) / std_deviation 
+		X_design = np.array((mileage), dtype=float).reshape(-1, 1)
+		onesX = np.ones((X_design.shape[0], 1), dtype=float)
+		X = np.concatenate((onesX, X_design), axis=1)
+		res = calc_linear(X, theta)
+		if res < 0:
+			res = 0
+	else:
+		res = 0
+	print("Here is your vehicle price :", res)
 	
 	return
 
