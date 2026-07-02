@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from pathlib import Path
 from parsing import load_csv, standard_data, create_file
 from calcul import training, calc_linear
 def main():
@@ -33,6 +34,11 @@ def main():
 	plt.xlabel('km')
 	plt.ylabel('price')
 	plt.plot(raw_datas.km, calc_linear(X, theta), color='red')
+
+	figures_dir = Path("outputs/figures")
+	figures_dir.mkdir(parents=True, exist_ok=True)
+
+	plt.savefig(figures_dir / "regression.pdf", dpi=300, bbox_inches="tight")
 	plt.show()
 
 	print("Here is datas :", raw_datas)

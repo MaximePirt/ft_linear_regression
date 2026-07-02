@@ -2,3 +2,4 @@
 __pycache__
 .DS_Store
 training_datas.csv
+*.pdf
