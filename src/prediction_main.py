@@ -1,8 +1,6 @@
-from parsing import parse_input
-
-def calcul_estimate_price(theta0: int, theta1: int, mileage: int) -> int:
-	res = theta0 + theta1 * mileage
-	return res
+from parsing import parse_input, load_csv
+from calcul import calc_linear
+import numpy as np
 
 
 def main():
@@ -14,14 +12,37 @@ def main():
 	print("Enter car's mileages please")
 	arg = input()
 
+
 	mileage = parse_input(arg)
 	if mileage == -1:
 		return -1
 	print("Here is input :", mileage)
 
-	theta0 = 0
-	theta1 = 0
-	res = calcul_estimate_price(theta0, theta1, mileage)
+	theta = 0
+	mean = 0
+	std_deviation = 0
+	try:
+		data = load_csv("models/training_datas.csv")
+		row = data.iloc[0]
+		theta = (float(row["theta0"]), float(row["theta1"]))
+		mean = float(row["mean"])
+		std_deviation = float(row["std_deviation"])
+	except Exception as e:
+		print("This program has not been trained yet :", e)
+
+
+
+	print("Here is theta :", theta)
+	print("Here is mean :", mean)
+	print("Here is deviation :", std_deviation)
+
+	mileage =  (mileage - mean) / std_deviation 
+	X_design = np.array((mileage), dtype=float).reshape(-1, 1)
+	onesX = np.ones((X_design.shape[0], 1), dtype=float)
+	X = np.concatenate((onesX, X_design), axis=1)
+	print("here is mileage :", X)
+
+	res = calc_linear(X, theta)
 	print("Here is res :", res)
 	
 	return

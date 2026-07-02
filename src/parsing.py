@@ -71,7 +71,6 @@ def load_csv(path: str) -> pd.DataFrame:
 		raise TypeError("Error, file isn't in csv format")
 	data = pd.read_csv(path)
 	print("Loading dataset of dimensions", data.shape)
-	print("Here is firsts datas : \n", data)
 	return data
 	# except:
 	# 	return None
