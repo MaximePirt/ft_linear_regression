@@ -1,3 +1,4 @@
+from pathlib import Path
 import pandas as pd
 import numpy as np
 
@@ -74,3 +75,23 @@ def load_csv(path: str) -> pd.DataFrame:
 	return data
 	# except:
 	# 	return None
+
+
+def create_file(theta, mean, std_deviation, filename="models/training_datas.csv"):
+	'''
+		Create a Csv file using trainings datas
+		File is named : training_datas.csv
+	'''
+	path = Path(filename)
+	try:
+		path.parent.mkdir(parents=True, exist_ok=True)
+		params = pd.DataFrame([{
+			"theta0": theta[0],
+			"theta1": theta[1],
+			"mean": mean,
+			"std_deviation": std_deviation
+		}])
+		params.to_csv(path, index=False)
+	except Exception as e:
+		print("Error creating model parameters in {path} : {e}")
+	return
