@@ -12,7 +12,10 @@ def main():
 		to launch program
 	"""
 
+
 	raw_datas = load_csv("data/data.csv")
+	if raw_datas is None:
+		return 1
 	datas = raw_datas.copy()
 	
 	datas, mean, std_deviation = standard_data(datas)
@@ -39,10 +42,8 @@ def main():
 	plt.savefig(figures_dir / "regression.pdf", dpi=300, bbox_inches="tight")
 	plt.show()
 
-	print("Here is datas :", raw_datas)
-	print("Here is X :", X)
+	print("End of training.")
 
-	
 	return
 
 if __name__ == "__main__":

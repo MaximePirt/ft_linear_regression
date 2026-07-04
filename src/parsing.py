@@ -52,14 +52,15 @@ def load_csv(path: str) -> pd.DataFrame:
 		output : Dataframe with csv informations
 			TODO: Protect csv inputs
 		'''
-	# try:
-	if not path.endswith("csv"):
-		raise TypeError("Error, file isn't in csv format")
-	data = pd.read_csv(path)
-	print("Loading dataset of dimensions", data.shape)
-	return data
-	# except:
-	# 	return None
+	try:
+		if not path.endswith("csv"):
+			raise TypeError("Error, file isn't in csv format")
+		data = pd.read_csv(path)
+		print("Loading dataset of dimensions", data.shape)
+		return data
+	except Exception as e:
+		print("Error opening dataset :", e)
+		return None
 
 
 def create_file(theta, mean, std_deviation, filename="models/training_datas.csv"):
