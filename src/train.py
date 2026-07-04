@@ -2,7 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from pathlib import Path
 from parsing import load_csv, standard_data, create_file
-from calcul import training, calc_linear
+from calcul import training, calc_linear, build_design_matrix
+
+
 def main():
 	""" 
 		main program function
@@ -19,11 +21,7 @@ def main():
 	theta = training(datas, theta, mean, std_deviation)
 	# Save thetas, mean, std_deviation in csv file
 
-
-
-	X_design = np.array((datas.km), dtype=float).reshape(-1, 1)
-	onesX = np.ones((X_design.shape[0], 1), dtype=float)
-	X = np.concatenate((onesX, X_design), axis=1)
+	X = build_design_matrix(datas.km)
 
 	# Create file and put training variables inside 
 	create_file(theta, mean, std_deviation)

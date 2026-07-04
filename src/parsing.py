@@ -1,6 +1,7 @@
 from pathlib import Path
 import pandas as pd
 import numpy as np
+from calcul import calc_std_deviation
 
 
 def parse_input(arg: str):
@@ -20,21 +21,6 @@ def parse_input(arg: str):
 	return value
 
 
-def calc_std_deviation(args, mean):
-	'''
-		This function calcul dataset standard deviation
-		Input : 	args - data which need to be calculate
-					mean 
-		Output : deviation
-	'''
-	tmp_var = []
-	for i in args:
-		tmp_var.append((i - mean) ** 2)
-	
-	variance = sum(tmp_var)
-	variance = variance / len(args)
-	deviation = variance ** (1/2)
-	return deviation
 
 def standard_data(data):
 	'''

@@ -1,5 +1,5 @@
 from parsing import parse_input, load_csv
-from calcul import calc_linear
+from calcul import calc_linear, build_design_matrix
 import numpy as np
 
 
@@ -36,9 +36,7 @@ def main():
 
 	if trained :
 		mileage =  (mileage - mean) / std_deviation 
-		X_design = np.array((mileage), dtype=float).reshape(-1, 1)
-		onesX = np.ones((X_design.shape[0], 1), dtype=float)
-		X = np.concatenate((onesX, X_design), axis=1)
+		X = build_design_matrix(mileage)
 		res = calc_linear(X, theta)
 		if res < 0:
 			res = 0
