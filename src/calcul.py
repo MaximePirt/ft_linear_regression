@@ -2,6 +2,7 @@ import numpy as np
 
 learningRate = 0.000005
 max_iterations = 5000000
+tolerance = 1e-9
 
 
 
@@ -58,6 +59,18 @@ def build_design_matrix(args):
 
 	return X
 
+
+
+def cost_function(F, Y):
+	'''
+		This function calculate our program cost error
+		It is near the MSE calcul except we divided by 2m 
+	'''
+	Error = F - Y
+	cost = (Error ** 2).sum() / (2 * Y.size)
+	return cost
+
+
 def training(datas, theta, mean, std_deviation):
 	''' Linear regression calcul using two matrices
 		X is exemple value, theta is variables
@@ -72,9 +85,18 @@ def training(datas, theta, mean, std_deviation):
 	Y = np.array(datas.price, dtype=float).reshape(-1, 1)
 
 	i = 0
+	old_cost = None
 	for i  in range(max_iterations):
 		F = calc_linear(X, theta).reshape(-1,1)
+		cost = cost_function(F, Y)
+		if old_cost is not None and not i % 1000:
+			improvement =  abs(old_cost - cost) / old_cost
+			if improvement < tolerance:
+				print("Training stopped : cost converged.")
+				return theta
 		tmptheta = updt_theta(theta, X, Y, F)
 		theta = theta - tmptheta
+		old_cost = cost
+	print("Training stopped : max iterations.")
 
 	return theta
