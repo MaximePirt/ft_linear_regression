@@ -23,7 +23,7 @@ def main():
 	std_deviation = 0
 	trained = True
 	try:
-		data = load_csv("models/training_datas.csv")
+		data = load_csv("models/trained_params.csv")
 		row = data.iloc[0]
 		theta = (float(row["theta0"]), float(row["theta1"]))
 		mean = float(row["mean"])

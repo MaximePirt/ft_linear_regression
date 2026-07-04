@@ -76,8 +76,5 @@ def training(datas, theta, mean, std_deviation):
 		F = calc_linear(X, theta).reshape(-1,1)
 		tmptheta = updt_theta(theta, X, Y, F)
 		theta = theta - tmptheta
-		if not i % 100000: # TODO: Remove, debug printing only
-			print("Here is theta :", theta)
-
 
 	return theta

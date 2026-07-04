@@ -63,10 +63,10 @@ def load_csv(path: str) -> pd.DataFrame:
 		return None
 
 
-def create_file(theta, mean, std_deviation, filename="models/training_datas.csv"):
+def create_file(theta, mean, std_deviation, filename="models/trained_params.csv"):
 	'''
 		Create a Csv file using trainings datas
-		File is named : training_datas.csv
+		File is named : trained_params.csv
 	'''
 	path = Path(filename)
 	try:

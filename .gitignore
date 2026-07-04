@@ -1,5 +1,5 @@
 .venv
 __pycache__
 .DS_Store
-training_datas.csv
+trained_params.csv
 *.pdf
