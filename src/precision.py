@@ -17,11 +17,8 @@ def main():
 	trained_params = load_csv("models/trained_params.csv")
 	row = trained_params.iloc[0]
 	theta = (float(row["theta0"]), float(row["theta1"]))
-	mean = float(row["mean"])
-	std_deviation = float(row["std_deviation"])
 
 	datas = load_csv("data/data.csv")
-	datas.km = (datas.km - mean) / std_deviation 
 
 	X = build_design_matrix(datas.km)
 	Y = np.array(datas.price, dtype=float).reshape(-1, 1)

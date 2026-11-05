@@ -19,15 +19,11 @@ def main():
 	print("Here is input :", mileage)
 
 	theta = 0
-	mean = 0
-	std_deviation = 0
 	trained = True
 	try:
 		data = load_csv("models/trained_params.csv")
 		row = data.iloc[0]
 		theta = (float(row["theta0"]), float(row["theta1"]))
-		mean = float(row["mean"])
-		std_deviation = float(row["std_deviation"])
 	except Exception as e:
 		print("This program has not been trained yet :", e)
 		trained = False
@@ -35,7 +31,6 @@ def main():
 
 
 	if trained :
-		mileage =  (mileage - mean) / std_deviation 
 		X = build_design_matrix(mileage)
 		res = calc_linear(X, theta)
 		if res < 0:
