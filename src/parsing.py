@@ -47,6 +47,32 @@ def extract_theta_from_csv(trained_params_path: str):
 	return theta
 
 
+def extract_datas_from_csv(data_path: str):
+	"""
+		Extract datas from a CSV file containing dataset.
+		Args:
+			data_path (str): Path to the CSV file containing dataset.
+		Returns:
+			pd.DataFrame: A DataFrame containing the dataset if successful, None otherwise.
+	"""
+	datas = load_csv(data_path)
+	if datas is None or datas.empty:
+		print("No dataset found. Please ensure the data file is present and not empty.")
+		return None
+	if "km" not in datas.columns or "price" not in datas.columns:
+		print("Dataset is missing required columns. Please ensure the data file is formatted correctly.")
+		return None
+	if not np.issubdtype(datas["km"].dtype, np.number) or not np.issubdtype(datas["price"].dtype, np.number):
+		print("Dataset contains non-numeric values. Please ensure the data file is formatted correctly.")
+		return None
+	if not np.isfinite(datas[["km", "price"]]).all().all():
+		print("Dataset contains invalid values. Please ensure the data file is formatted correctly.")
+		return None
+	if (datas[["km", "price"]] < 0).any().any():
+		print("Dataset contains negative values. Please ensure the data file is formatted correctly.")
+		return None
+	return datas
+
 def standard_data(data):
 	'''
 		This function is here to standardise data from Dataset.

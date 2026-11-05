@@ -1,5 +1,5 @@
 import numpy as np
-from parsing import load_csv, extract_theta_from_csv
+from parsing import load_csv, extract_theta_from_csv, extract_datas_from_csv
 from calcul import build_design_matrix, calc_linear
 
 def main():
@@ -17,7 +17,9 @@ def main():
 	theta = extract_theta_from_csv("models/trained_params.csv")
 	if theta is None:
 		return 1
-	datas = load_csv("data/data.csv")
+	datas = extract_datas_from_csv("data/data.csv")
+	if datas is None:
+		return 1
 
 
 	X = build_design_matrix(datas.km)
