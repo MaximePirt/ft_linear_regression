@@ -13,8 +13,8 @@ def parse_input(arg: str):
 	try:
 		value = int(arg)
 		if value < 0:
-			raise Error
-	except:
+			raise ValueError
+	except ValueError:
 		print("Error validating input : not a mileage")
 		return -1
 		

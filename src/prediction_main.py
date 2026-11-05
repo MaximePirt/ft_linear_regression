@@ -10,8 +10,11 @@ def main():
 		to launch program
 	"""
 	print("Enter car's mileages please")
-	arg = input()
-
+	try:
+		arg = input()
+	except (EOFError, KeyboardInterrupt):
+		print("\nInput cancelled.")
+		return -1
 
 	mileage = parse_input(arg)
 	if mileage == -1:
