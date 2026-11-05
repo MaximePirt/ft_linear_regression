@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from pathlib import Path
-from parsing import load_csv, standard_data, create_file
+from parsing import load_csv, standard_data, create_file, unstandard_data
 from calcul import training, calc_linear, build_design_matrix
 
 
@@ -36,13 +36,15 @@ def main():
 		return 1
 	datas = raw_datas.copy()
 	
+
 	datas, mean, std_deviation = standard_data(datas)
 	print("Here is final datas :\n", datas)
 	theta = np.array([0, 0])
 	theta = training(datas, theta, mean, std_deviation)
-	# Save thetas, mean, std_deviation in csv file
 
-	X = build_design_matrix(datas.km)
+	theta = unstandard_data(theta, mean, std_deviation)
+
+	X = build_design_matrix(raw_datas.km)
 
 	# Create file and put training variables inside 
 	create_file(theta, mean, std_deviation)

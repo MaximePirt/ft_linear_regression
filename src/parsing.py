@@ -45,6 +45,24 @@ def standard_data(data):
 
 	return data, mean, std_deviation
 
+def unstandard_data(theta, mean, std_deviation):
+	'''
+		This function is here to unstandardise thetas from Dataset.
+		Unstandardisation take standard deviation and dataset mean to modify thetas
+		a theta superior to mean will be set to positive, and a theta inferior will be negative
+		Unstandardisation differ from normalisation because it keeps standard_deviation in datas
+
+		Input : 	theta - thetas
+					mean
+					std_deviation
+		Output :	theta - Modified thetas
+	'''
+	tmp_theta = theta.copy()
+	tmp_theta[0] = theta[0] - (theta[1] * mean / std_deviation)
+	tmp_theta[1] = theta[1] / std_deviation
+	theta = tmp_theta
+	return theta
+
 def load_csv(path: str) -> pd.DataFrame:
 	''' 
 		Load a file from path, and return infos into Datafram
@@ -73,9 +91,7 @@ def create_file(theta, mean, std_deviation, filename="models/trained_params.csv"
 		path.parent.mkdir(parents=True, exist_ok=True)
 		params = pd.DataFrame([{
 			"theta0": theta[0],
-			"theta1": theta[1],
-			"mean": mean,
-			"std_deviation": std_deviation
+			"theta1": theta[1]
 		}])
 		params.to_csv(path, index=False)
 	except Exception as e:

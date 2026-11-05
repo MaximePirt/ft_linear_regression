@@ -84,9 +84,8 @@ def training(datas, theta, mean, std_deviation):
 	X = build_design_matrix(datas.km)
 	Y = np.array(datas.price, dtype=float).reshape(-1, 1)
 
-	i = 0
 	old_cost = None
-	for i  in range(max_iterations):
+	for i in range(max_iterations):
 		F = calc_linear(X, theta).reshape(-1,1)
 		cost = cost_function(F, Y)
 		if old_cost is not None and not i % 1000:
