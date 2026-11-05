@@ -41,6 +41,8 @@ def main():
 	print("Here is final datas :\n", datas)
 	theta = np.array([0, 0])
 	theta = training(datas, theta, mean, std_deviation)
+	if theta is None:
+		return 1
 
 	theta = unstandard_data(theta, mean, std_deviation)
 
@@ -50,7 +52,7 @@ def main():
 	create_file(theta, mean, std_deviation)
 
 	# # Visualisation --------
-	visualise(raw_datas, X, theta)
+	# visualise(raw_datas, X, theta)
 
 	print("End of training.")
 	return

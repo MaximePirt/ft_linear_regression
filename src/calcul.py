@@ -1,6 +1,6 @@
 import numpy as np
 
-learningRate = 0.000005
+learningRate = 0.1
 max_iterations = 5000000
 tolerance = 1e-9
 
@@ -29,17 +29,19 @@ def calc_linear(mileage, theta):
 	return np.dot(mileage, theta)
 
 
-def updt_theta(theta, X, Y, F):
+def calc_gradient(theta, X, Y, F):
 	'''
-		Calcul the function error + update thetas
+		Calcul the gradient of the cost function.
 		Error = diff between calc_linear and real price
 		F = matrice [linear regression]
 		Y = matrice [price, ]
 		X = matrice [mileage n, 1]
 		theta = [0, 0]
+		gradient[0] = (1/m) * sum(Error)
+		gradient[1] = (1/m) * sum(Error * X)
 	'''
 	Error = F - Y
-	gradient = learningRate * (1/Y.size) * (X.T @ Error)
+	gradient = (1/Y.size) * (X.T @ Error)
 	return gradient.flatten()
 
 
@@ -84,18 +86,22 @@ def training(datas, theta, mean, std_deviation):
 	X = build_design_matrix(datas.km)
 	Y = np.array(datas.price, dtype=float).reshape(-1, 1)
 
-	old_cost = None
 	for i in range(max_iterations):
 		F = calc_linear(X, theta).reshape(-1,1)
-		cost = cost_function(F, Y)
-		if old_cost is not None and not i % 1000:
-			improvement =  abs(old_cost - cost) / old_cost
-			if improvement < tolerance:
-				print("Training stopped : cost converged.")
-				return theta
-		tmptheta = updt_theta(theta, X, Y, F)
+		gradient = calc_gradient(theta, X, Y, F)
+
+		if not np.isfinite(gradient).all():
+			print("Training stopped : gradient is not finite.")
+			print("Gradient :", gradient)
+			print("Iterations :", i)
+			return None
+		elif np.linalg.norm(gradient) < tolerance:
+			print("Training stopped : gradient converged.")
+			print("Gradient norm :", np.linalg.norm(gradient))
+			print("Iterations :", i)
+			return theta
+		tmptheta = gradient * learningRate
 		theta = theta - tmptheta
-		old_cost = cost
 	print("Training stopped : max iterations.")
 
 	return theta
