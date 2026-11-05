@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from pathlib import Path
-from parsing import load_csv, standard_data, create_file, unstandard_data
+from parsing import load_csv, standard_data, create_file, unstandard_data, extract_datas_from_csv
 from calcul import training, calc_linear, build_design_matrix
 
 
@@ -31,7 +31,7 @@ def main():
 		to launch program
 	"""
 
-	raw_datas = load_csv("data/data.csv")
+	raw_datas = extract_datas_from_csv("data/data.csv")
 	if raw_datas is None:
 		return 1
 	datas = raw_datas.copy()

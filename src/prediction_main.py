@@ -1,4 +1,4 @@
-from parsing import parse_input, load_csv
+from parsing import parse_input, extract_theta_from_csv
 from calcul import calc_linear, build_design_matrix
 import numpy as np
 
@@ -20,13 +20,11 @@ def main():
 
 	theta = 0
 	trained = True
-	try:
-		data = load_csv("models/trained_params.csv")
-		row = data.iloc[0]
-		theta = (float(row["theta0"]), float(row["theta1"]))
-	except Exception as e:
-		print("This program has not been trained yet :", e)
+
+	theta = extract_theta_from_csv("models/trained_params.csv")
+	if theta is None:
 		trained = False
+		
 
 
 
