@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from pathlib import Path
-from parsing import load_csv, standard_data, create_file, unstandard_data, extract_datas_from_csv
+from parsing import standard_data, create_file, unstandard_data, extract_datas_from_csv
 from calcul import training, calc_linear, build_design_matrix
 
 
@@ -26,9 +26,9 @@ def visualise(raw_datas, X, theta):
 
 def main():
 	""" 
-		main program function
-		ask for car's mileages as an input, then check validity
-		to launch program
+		Main program function
+		It takes the dataset, standardise it, then train thetas using linear regression
+		After training, it unstandardise thetas and save them into a csv file
 	"""
 
 	raw_datas = extract_datas_from_csv("data/data.csv")
@@ -38,9 +38,8 @@ def main():
 	
 
 	datas, mean, std_deviation = standard_data(datas)
-	print("Here is final datas :\n", datas)
 	theta = np.array([0, 0])
-	theta = training(datas, theta, mean, std_deviation)
+	theta = training(datas, theta)
 	if theta is None:
 		return 1
 
@@ -49,7 +48,7 @@ def main():
 	X = build_design_matrix(raw_datas.km)
 
 	# Create file and put training variables inside 
-	create_file(theta, mean, std_deviation)
+	create_file(theta)
 
 	# # Visualisation --------
 	# visualise(raw_datas, X, theta)

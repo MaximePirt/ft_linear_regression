@@ -1,5 +1,5 @@
 import numpy as np
-from parsing import load_csv, extract_theta_from_csv, extract_datas_from_csv
+from parsing import extract_theta_from_csv, extract_datas_from_csv
 from calcul import build_design_matrix, calc_linear
 
 def main():

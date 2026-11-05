@@ -29,14 +29,13 @@ def calc_linear(mileage, theta):
 	return np.dot(mileage, theta)
 
 
-def calc_gradient(theta, X, Y, F):
+def calc_gradient(X, Y, F):
 	'''
 		Calcul the gradient of the cost function.
 		Error = diff between calc_linear and real price
 		F = matrice [linear regression]
 		Y = matrice [price, ]
 		X = matrice [mileage n, 1]
-		theta = [0, 0]
 		gradient[0] = (1/m) * sum(Error)
 		gradient[1] = (1/m) * sum(Error * X)
 	'''
@@ -62,25 +61,13 @@ def build_design_matrix(args):
 	return X
 
 
-
-def cost_function(F, Y):
-	'''
-		This function calculate our program cost error
-		It is near the MSE calcul except we divided by 2m 
-	'''
-	Error = F - Y
-	cost = (Error ** 2).sum() / (2 * Y.size)
-	return cost
-
-
-def training(datas, theta, mean, std_deviation):
+def training(datas, theta):
 	''' Linear regression calcul using two matrices
 		X is exemple value, theta is variables
 		Y is real prices
 		X = [m1, m2, m3 , mn],
 		theta = [a, b]
-		return F result
-		F = X . Theta
+		return theta = [a, b] after training
 		'''
 
 	X = build_design_matrix(datas.km)
@@ -88,7 +75,7 @@ def training(datas, theta, mean, std_deviation):
 
 	for i in range(max_iterations):
 		F = calc_linear(X, theta).reshape(-1,1)
-		gradient = calc_gradient(theta, X, Y, F)
+		gradient = calc_gradient(X, Y, F)
 
 		if not np.isfinite(gradient).all():
 			print("Training stopped : gradient is not finite.")

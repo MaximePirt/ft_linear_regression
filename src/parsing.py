@@ -6,9 +6,9 @@ from calcul import calc_std_deviation
 
 def parse_input(arg: str):
 	"""
-		Check if input is a number + normalise it
+		Check if input is a number else return -1
 		Input - str -> string input
-		Output -> Normalise mileages, or -1 if error
+		Output -> int : mileage if valid, -1 if not valid
 	"""
 	try:
 		value = int(arg)
@@ -87,9 +87,6 @@ def standard_data(data):
 	'''
 	km = data.km
 	mean = km.sum() / km.size
-	max_km = np.nanmax(km)
-	min_km = np.nanmin(km)
-
 	std_deviation = calc_std_deviation(km, mean)
 
 	data.km = (km - mean) / std_deviation 
@@ -99,9 +96,6 @@ def standard_data(data):
 def unstandard_data(theta, mean, std_deviation):
 	'''
 		This function is here to unstandardise thetas from Dataset.
-		Unstandardisation take standard deviation and dataset mean to modify thetas
-		a theta superior to mean will be set to positive, and a theta inferior will be negative
-		Unstandardisation differ from normalisation because it keeps standard_deviation in datas
 
 		Input : 	theta - thetas
 					mean
@@ -130,7 +124,7 @@ def load_csv(path: str) -> pd.DataFrame:
 		return None
 
 
-def create_file(theta, mean, std_deviation, filename="models/trained_params.csv"):
+def create_file(theta, filename="models/trained_params.csv"):
 	'''
 		Create a Csv file using trainings datas
 		File is named : trained_params.csv
@@ -144,5 +138,5 @@ def create_file(theta, mean, std_deviation, filename="models/trained_params.csv"
 		}])
 		params.to_csv(path, index=False)
 	except Exception as e:
-		print("Error creating model parameters in {path} : {e}")
+		print(f"Error creating model parameters in {path} : {e}")
 	return
