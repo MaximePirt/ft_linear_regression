@@ -1,5 +1,5 @@
 from parsing import parse_input, extract_theta_from_csv
-from calcul import calc_linear, build_design_matrix
+from calcul import estimate_price
 
 
 def main():
@@ -20,20 +20,12 @@ def main():
 		return -1
 	print("Here is input :", mileage)
 
-	trained = True
 	theta = extract_theta_from_csv("models/trained_params.csv")
 	if theta is None:
-		trained = False
-		
+		theta = (0, 0)
 
-
-
-	if trained :
-		X = build_design_matrix(mileage)
-		res = calc_linear(X, theta)
-		if res < 0:
-			res = 0
-	else:
+	res = estimate_price(mileage, theta[0], theta[1])
+	if res < 0:
 		res = 0
 	print("Here is your vehicle price :", res)
 	

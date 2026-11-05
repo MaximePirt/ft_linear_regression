@@ -22,73 +22,52 @@ def calc_std_deviation(args, mean):
 	deviation = variance ** (1/2)
 	return deviation
 
-def calc_linear(mileage, theta):
+
+def estimate_price(mileage, theta0, theta1):
 	'''
-		Calcul the linear regression ax+b from matricial shape
+		Calcul the price from the subject require
+		estimatePrice(mileage) = theta0 + (theta1 * mileage)
 	'''
-	return np.dot(mileage, theta)
+	return theta0 + (theta1 * mileage)
 
 
-def calc_gradient(X, Y, F):
+
+def training(datas):
 	'''
-		Calcul the gradient of the cost function.
-		Error = diff between calc_linear and real price
-		F = matrice [linear regression]
-		Y = matrice [price, ]
-		X = matrice [mileage n, 1]
-		gradient[0] = (1/m) * sum(Error)
-		gradient[1] = (1/m) * sum(Error * X)
+		Train a linear regression model with batch gradient descent.
+		At each iteration, theta0 and theta1 are updated simultaneously :
+			theta0 -= learningRate * mean(error)
+			theta1 -= learningRate * mean(error * km)
+		with error = estimate_price(km) - price.
+		Input :		datas - dataset with 'km' and 'price' columns
+		Output :	numpy array [theta0, theta1] when the gradient converged
+					(norm < tolerance) or max_iterations is reached,
+					None if the gradient becomes non finite (divergence)
 	'''
-	Error = F - Y
-	gradient = (1/Y.size) * (X.T @ Error)
-	return gradient.flatten()
 
+	km = np.array(datas.km)
+	price = np.array(datas.price)
+	theta0, theta1 = 0.0, 0.0
 
-def build_design_matrix(args):
-	"""
-		Build the design matrix for linear regression.
-		Convert args values into a 2D column vector and add a
-		column of 1s to represent the intercept term.
-		Input :		args : multiple values which will be converted
-		Output : 	X_design : np.array version of args
-					X : X_design with an additionnal 1 colums
-	"""
-
-	X_design = np.array((args), dtype=float).reshape(-1, 1)
-	onesX = np.ones((X_design.shape[0], 1), dtype=float)
-	X = np.concatenate((onesX, X_design), axis=1)
-
-	return X
-
-
-def training(datas, theta):
-	''' Linear regression calcul using two matrices
-		X is exemple value, theta is variables
-		Y is real prices
-		X = [m1, m2, m3 , mn],
-		theta = [a, b]
-		return theta = [a, b] after training
-		'''
-
-	X = build_design_matrix(datas.km)
-	Y = np.array(datas.price, dtype=float).reshape(-1, 1)
-
+	
 	for i in range(max_iterations):
-		F = calc_linear(X, theta).reshape(-1,1)
-		gradient = calc_gradient(X, Y, F)
+		error = estimate_price(km, theta0, theta1) - price
+		gradient = np.array([error.mean(), (error * km).mean()])
 
 		if not np.isfinite(gradient).all():
 			print("Training stopped : gradient is not finite.")
-			print("Gradient :", gradient)
 			print("Iterations :", i)
 			return None
 		elif np.linalg.norm(gradient) < tolerance:
 			print("Training stopped : gradient converged.")
-			print("Gradient norm :", np.linalg.norm(gradient))
 			print("Iterations :", i)
-			return theta
-		tmptheta = gradient * learningRate
-		theta = theta - tmptheta
+			return np.array([theta0, theta1])
+
+		tmp_theta0 = gradient[0] * learningRate
+		tmp_theta1 = gradient[1] * learningRate
+		theta0 = theta0 - tmp_theta0
+		theta1 = theta1 - tmp_theta1
+	theta = np.array([theta0, theta1])
 	print("Training stopped : max iterations.")
 
 	return theta

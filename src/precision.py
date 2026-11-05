@@ -1,6 +1,6 @@
 import numpy as np
 from parsing import extract_theta_from_csv, extract_datas_from_csv
-from calcul import build_design_matrix, calc_linear
+from calcul import estimate_price
 
 def main():
 	'''
@@ -22,12 +22,11 @@ def main():
 		return 1
 
 
-	X = build_design_matrix(datas.km)
-	Y = np.array(datas.price, dtype=float).reshape(-1, 1)
-	F = calc_linear(X, theta).reshape(-1,1)
+	km = np.array(datas.km)
+	price = np.array(datas.price)
 
 	# Evaluations --
-	Error = F - Y
+	Error = estimate_price(km, theta[0], theta[1]) - price
 
 	mse = (Error ** 2).mean()
 	rmse = np.sqrt(mse)

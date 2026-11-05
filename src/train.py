@@ -1,11 +1,10 @@
-import numpy as np
 import matplotlib.pyplot as plt
 from pathlib import Path
 from parsing import standard_data, create_file, unstandard_data, extract_datas_from_csv
-from calcul import training, calc_linear, build_design_matrix
+from calcul import training, estimate_price
 
 
-def visualise(raw_datas, X, theta):
+def visualise(raw_datas, theta):
 	'''
 		This function help visualise our linear regression using our programs datas
 		After displaying a graph, it saves it in ouputs/figures folder
@@ -15,7 +14,7 @@ def visualise(raw_datas, X, theta):
 	plt.grid()
 	plt.xlabel('km')
 	plt.ylabel('price')
-	plt.plot(raw_datas.km, calc_linear(X, theta), color='red')
+	plt.plot(raw_datas.km, estimate_price(raw_datas.km, theta[0], theta[1]), color='red')
 
 	figures_dir = Path("outputs/figures")
 	figures_dir.mkdir(parents=True, exist_ok=True)
@@ -38,20 +37,17 @@ def main():
 	
 
 	datas, mean, std_deviation = standard_data(datas)
-	theta = np.array([0, 0])
-	theta = training(datas, theta)
+	theta = training(datas)
 	if theta is None:
 		return 1
 
 	theta = unstandard_data(theta, mean, std_deviation)
 
-	X = build_design_matrix(raw_datas.km)
-
 	# Create file and put training variables inside 
 	create_file(theta)
 
 	# # Visualisation --------
-	# visualise(raw_datas, X, theta)
+	# visualise(raw_datas, theta)
 
 	print("End of training.")
 	return
