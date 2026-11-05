@@ -45,8 +45,8 @@ def training(datas):
 					None if the gradient becomes non finite (divergence)
 	'''
 
-	km = np.array(datas.km)
-	price = np.array(datas.price)
+	km = np.array(datas.km, dtype=float)
+	price = np.array(datas.price, dtype=float)
 	theta0, theta1 = 0.0, 0.0
 
 	

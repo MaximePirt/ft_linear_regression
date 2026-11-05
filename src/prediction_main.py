@@ -3,10 +3,15 @@ from calcul import estimate_price
 
 
 def main():
-	""" 
-		main program function
-		ask for car's mileages as an input, then check validity
-		to launch program
+	"""
+		Entry point of the prediction program.
+
+		Asks the user for a car's mileage and validates it. Then loads the
+		trained parameters (theta0, theta1) from models/trained_params.csv
+		(falls back to (0, 0) if they are missing) and prints the estimated
+		price, clamped to 0 when negative.
+
+		Returns -1 if the input is cancelled or invalid, None otherwise.
 	"""
 	print("Enter car's mileages please")
 	try:
@@ -27,7 +32,7 @@ def main():
 	res = estimate_price(mileage, theta[0], theta[1])
 	if res < 0:
 		res = 0
-	print("Here is your vehicle price :", res)
+	print(f"Here is your vehicle price : {res:.2f}")
 	
 	return
 

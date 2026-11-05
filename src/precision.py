@@ -22,8 +22,8 @@ def main():
 		return 1
 
 
-	km = np.array(datas.km)
-	price = np.array(datas.price)
+	km = np.array(datas.km, dtype=float)
+	price = np.array(datas.price, dtype=float)
 
 	# Evaluations --
 	Error = estimate_price(km, theta[0], theta[1]) - price

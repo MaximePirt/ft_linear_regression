@@ -14,10 +14,13 @@ def parse_input(arg: str):
 		value = int(arg)
 		if value < 0:
 			raise ValueError
+		float(value)
 	except ValueError:
 		print("Error validating input : not a mileage")
 		return -1
-		
+	except OverflowError:
+		print("Error validating input : mileage too high to be reasonnable")
+		return -1
 	return value
 
 
@@ -110,7 +113,7 @@ def unstandard_data(theta, mean, std_deviation):
 
 def load_csv(path: str) -> pd.DataFrame:
 	''' 
-		Load a file from path, and return infos into Datafram
+		Load a file from path, and return infos into Dataframe
 		input : path - filename to open, which need to be a csv
 		output : Dataframe with csv informations
 		'''

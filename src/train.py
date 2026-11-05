@@ -7,7 +7,7 @@ from calcul import training, estimate_price
 def visualise(raw_datas, theta):
 	'''
 		This function help visualise our linear regression using our programs datas
-		After displaying a graph, it saves it in ouputs/figures folder
+		After displaying a graph, it saves it in outputs/figures folder
 	'''
 	# Visualisation --------
 	plt.plot(raw_datas.km, raw_datas.price, 'X')
@@ -47,7 +47,7 @@ def main():
 	create_file(theta)
 
 	# # Visualisation --------
-	# visualise(raw_datas, theta)
+	visualise(raw_datas, theta)
 
 	print("End of training.")
 	return
