@@ -21,6 +21,31 @@ def parse_input(arg: str):
 	return value
 
 
+def extract_theta_from_csv(trained_params_path: str):
+	"""
+		Extract theta values from a CSV file containing trained parameters.
+		Args:
+			trained_params_path (str): Path to the CSV file containing trained parameters.
+		Returns:
+			tuple: A tuple containing theta0 and theta1 values if successful, None otherwise.
+	"""
+	trained_params = load_csv(trained_params_path)
+	if trained_params is None or trained_params.empty:
+		print("No trained parameters found. Please train the model first.")
+		return None
+	row = trained_params.iloc[0]
+	if "theta0" not in row or "theta1" not in row:
+		print("Trained parameters are missing. Please ensure the model is trained correctly.")
+		return None
+	if not np.issubdtype(type(row["theta0"]), np.number) or not np.issubdtype(type(row["theta1"]), np.number):
+		print("Trained parameters are not valid numbers. Please ensure the model is trained correctly.")
+		return None
+	theta = (float(row["theta0"]), float(row["theta1"]))
+	if not np.isfinite(theta).all():
+		print("Trained parameters are not valid. Please ensure the model is trained correctly.")
+		return None
+	return theta
+
 
 def standard_data(data):
 	'''

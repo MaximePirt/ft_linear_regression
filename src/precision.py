@@ -1,5 +1,5 @@
 import numpy as np
-from parsing import load_csv
+from parsing import load_csv, extract_theta_from_csv
 from calcul import build_design_matrix, calc_linear
 
 def main():
@@ -14,21 +14,9 @@ def main():
 	'''
 
 	# Loading files datas
-	trained_params = load_csv("models/trained_params.csv")
-	if trained_params is None or trained_params.empty:
-		print("No trained parameters found. Please train the model first.")
-		return -1
-	row = trained_params.iloc[0]
-	if "theta0" not in row or "theta1" not in row:
-		print("Trained parameters are missing. Please ensure the model is trained correctly.")
-		return -1
-	if not np.issubdtype(type(row["theta0"]), np.number) or not np.issubdtype(type(row["theta1"]), np.number):
-		print("Trained parameters are not valid numbers. Please ensure the model is trained correctly.")
-		return -1
-	theta = (float(row["theta0"]), float(row["theta1"]))
-	if not np.isfinite(theta).all():
-		print("Trained parameters are not valid. Please ensure the model is trained correctly.")
-		return -1
+	theta = extract_theta_from_csv("models/trained_params.csv")
+	if theta is None:
+		return 1
 	datas = load_csv("data/data.csv")
 
 
